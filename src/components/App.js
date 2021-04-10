@@ -80,7 +80,7 @@ function App() {
           }
         })
     }
-  }, [history])
+  }, [])
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpened(true);
@@ -143,10 +143,15 @@ function App() {
     setLoggedIn(true);
   }
 
+  function handleSignOut() {
+    localStorage.removeItem('token');
+    history.push('/sign-in');
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header email={userEmail} />
+        <Header email={userEmail} onSignOut={handleSignOut} />
         <Switch>
           <ProtectedRoute
             exact path="/"
