@@ -24,7 +24,8 @@ function Card(props) {
     props.onCardDelete(props.cardData);
   }
 
-  return <li className="place">
+  return (
+    <li className="place">
     <img className="place__image" src={props.cardData.link} alt={props.cardData.name} onClick={handleClick}/>
     <div className="place__caption">
       <h2 className="place__title">{props.cardData.name}</h2>
@@ -35,6 +36,6 @@ function Card(props) {
     </div>
     <button type="button" className={cardDeleteButtonClassName} onClick={handleDeleteClick}></button>
   </li>
-}
+  )}
 
 export default Card;
