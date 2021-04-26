@@ -1,5 +1,9 @@
 .footer {
   padding: 67px 0 60px;
+}
+
+.footer-auth {
+  position: fixed;
   bottom: 0;
 }
 
