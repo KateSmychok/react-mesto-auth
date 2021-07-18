@@ -1,19 +1,19 @@
-import React from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
-import ProtectedRoute from "./ProtectedRoute";
-import Header from "./Header";
-import Main from "./Main";
-import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
-import ImagePopup from "./ImagePopup";
-import EditProfilePopup from "./EditProfilePopup";
-import EditAvatarPopup from "./EditAvatarPopup";
-import AddPlacePopup from "./AddPlacePopup";
-import Login from "./Login";
-import Register from "./Register";
-import api from "../utils/api.js";
-import * as auth from '../utils/auth.js';
-import CurrentUserContext from "../contexts/CurrentUserContext";
+import React from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import ProtectedRoute from './ProtectedRoute';
+import Header from './Header';
+import Main from './Main';
+import Footer from './Footer';
+import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
+import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
+import Login from './Login';
+import Register from './Register';
+import api from '../utils/api';
+import * as auth from '../utils/auth';
+import CurrentUserContext from '../contexts/CurrentUserContext';
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
@@ -34,28 +34,28 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      })
-  }, [])
+      });
+  }, []);
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
     api.likeCard(card._id, isLiked)
       .then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c))
+        setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   }
 
   function handleCardDelete(card) {
     api.deleteCard(card._id)
       .then(() => {
-        setCards((state) => state.filter(c => c._id !== card._id))
+        setCards((state) => state.filter((c) => c._id !== card._id));
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   }
 
   React.useEffect(() => {
@@ -65,8 +65,8 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      })
-  }, [])
+      });
+  }, []);
 
   React.useEffect(() => {
     const token = localStorage.getItem('token');
@@ -78,9 +78,9 @@ function App() {
             setLoggedIn(true);
             history.push('/');
           }
-        })
+        });
     }
-  }, [])
+  }, []);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpened(true);
@@ -99,7 +99,14 @@ function App() {
     setIsImagePopupOpened(true);
   }
 
-  function handleUpdateUser({name, about}) {
+  function closeAllPopups() {
+    setIsEditProfilePopupOpened(false);
+    setIsAddPlacePopupOpened(false);
+    setIsEditAvatarPopupOpened(false);
+    setIsImagePopupOpened(false);
+  }
+
+  function handleUpdateUser({ name, about }) {
     api.setUserInfo(name, about)
       .then((data) => {
         setCurrentUser(data);
@@ -107,10 +114,10 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   }
 
-  function handleUpdateAvatar({avatar}) {
+  function handleUpdateAvatar({ avatar }) {
     api.setAvatar(avatar)
       .then((data) => {
         setCurrentUser(data);
@@ -118,10 +125,10 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   }
 
-  function handleAddPlaceSubmit({name, link}) {
+  function handleAddPlaceSubmit({ name, link }) {
     api.postNewCard(name, link)
       .then((newCard) => {
         setCards([newCard, ...cards]);
@@ -129,14 +136,7 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      })
-  }
-
-  function closeAllPopups() {
-    setIsEditProfilePopupOpened(false);
-    setIsAddPlacePopupOpened(false);
-    setIsEditAvatarPopupOpened(false);
-    setIsImagePopupOpened(false);
+      });
   }
 
   function handleLogin() {
@@ -173,14 +173,26 @@ function App() {
         </Switch>
         <Footer/>
 
-        {/*Редактировать профиль*/}
-        <EditProfilePopup isOpened={isEditProfilePopupOpened} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+        {/* Редактировать профиль */}
+        <EditProfilePopup
+          isOpened={isEditProfilePopupOpened}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
 
-        {/*Обновить аватар*/}
-        <EditAvatarPopup isOpened={isEditAvatarPopupOpened} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+        {/* Обновить аватар */}
+        <EditAvatarPopup
+          isOpened={isEditAvatarPopupOpened}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
 
-        {/*Добавить карточку*/}
-        <AddPlacePopup isOpened={isAddPlacePopupOpened} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
+        {/* Добавить карточку */}
+        <AddPlacePopup
+          isOpened={isAddPlacePopupOpened}
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
+        />
 
         <ImagePopup
           isOpened={isImagePopupOpened}
@@ -188,7 +200,7 @@ function App() {
           onClose={closeAllPopups}>
         </ImagePopup>
 
-        {/*Вы уверены?*/}
+        {/* Вы уверены? */}
         <PopupWithForm
           title="Вы уверены?"
           name="confirm"
@@ -199,7 +211,7 @@ function App() {
 
       </div>
     </CurrentUserContext.Provider>
-  )
+  );
 }
 
 export default App;

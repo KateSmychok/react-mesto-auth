@@ -1,6 +1,6 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import * as auth from '../utils/auth.js';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import * as auth from '../utils/auth';
 
 function Login(props) {
   const [email, setEmail] = React.useState('');
@@ -28,7 +28,7 @@ function Login(props) {
           history.push('/');
         }
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -64,7 +64,7 @@ function Login(props) {
         </form>
       </div>
     </div>
-  )
+  );
 }
 
 export default Login;
